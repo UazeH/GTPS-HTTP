@@ -1,5 +1,3 @@
-var clear = require('console-clear')
-
 var http = require("http");
 
 var readline = require('readline'); 
@@ -8,53 +6,107 @@ input: process.stdin,
 output: process.stdout 
 });
 
+var blacklist = new Map();
+
+var clear = require('console-clear')
+
+var setTitle = require('console-title');
+setTitle('Simple HTTP');
+
+var visit = 0;
+
+function displayTime() {
+    var str = "";
+
+    var currentTime = new Date()
+    var hours = currentTime.getHours()
+    var minutes = currentTime.getMinutes()
+    var seconds = currentTime.getSeconds()
+
+    if (hours < 10) {
+        hours = "0" + hours
+    }
+    if (minutes < 10) {
+        minutes = "0" + minutes
+    }
+    if (seconds < 10) {
+        seconds = "0" + seconds
+    }
+    str += "[" + hours + ":" + minutes + ":" + seconds + " ";
+    if(hours > 11){
+        str += "PM]"
+    } else {
+        str += "AM]"
+    }
+    return str;
+}
+
 rl.question("Password : ", function(password) {
-        if (password === "http")
-        {
-		console.clear ()
-        var prompt = require('prompt-sync')();
-        var ip = prompt('What IP Your Server: ');
-        console.clear()
-        var port = prompt('Enter Port UDP (Default :17091): ');
-        console.clear()
-        var packet = "server|" + ip + "\nport|17091\ntype|1\n#maint|Mainetrance message (Not used for now) -- NodeJS-GTPS\n\nbeta_server|127.0.0.1\nbeta_port|17091\n\nbeta_type|1\nmeta|localhost\nRTENDMARKERBS1001";
-        const http = require("http");
-        var visit = 0;
+    if (password === "lol")
+    {
+    console.clear ()
+var prompt = require('prompt-sync')();
+var ipcoy = prompt('What IP Your Server: ');
+console.clear()
+var port = prompt('Enter Port UDP (Default : 17091) : ');
+console.clear()
+var messagemaintenance = prompt('Enter Message when Server is Maintenance : ');
+console.clear()
 
 const client = http.createServer(function(req, res) {
     let ipAddress = req.connection.remoteAddress;
     ipAddress = ipAddress.split(/::ffff:/g).filter(a => a).join('');
-    if (req.url == "/growtopia/server_data.php") {
-        if (req.url = "GET") {
-            visit++;
-            visit++;res.write(`server|`+ ip +`\nport|17091\ntype|1\n#maint|Growtopia Private Server\n\nbeta_server|127.0.0.1\nbeta_port|17091\n\nbeta_type|1\nmeta|localhost\nRTENDMARKERBS1001`);
-            res.end();
-                        res.end();
-                        console.log(`==========[Growtopia LOGS]==========\n[!] New Connection with IP = ${ipAddress}`)
-                        console.log(`[!] Req Method = ${req.method}`)
-                        console.log(`[!] Entered Route = ${req.url}`)
-                        console.log('[!] Headers = ' + req.headers['user-agent'])
-                        console.log(`==================================`)
-        }
+          if (req.url == "/growtopia/server_data.php") {
+            if (req.url = "TRACE") {
+                res.write(`server|`+ ipcoy +`\nport|`+ port +`\ntype|1\n#maint|`+ messagemaintenance +`\n\nbeta_server|127.0.0.1\nbeta_port|17091\n\nbeta_type|1\nmeta|localhost\nRTENDMARKERBS1001`);
+                            res.end();
+                            console.log(`${displayTime()} New Connection Growtopia with IP = ${ipAddress} / Method = ${req.method} / in : ${req.url}`);
+                          }
+                        }
+                        else {
+                     console.log(`${displayTime()} New Connection with IP = ${ipAddress} / Method = ${req.method} / in : ${req.url}`);
+                        }
+                        if (req.url == "/") {
+                            if (req.url = "TRACE") {
+                                res.writeHead(511, "Simple HTTP");
+                                res.write(`<script>alert('Simple GTPS-HTTP')</script>`)
+                                console.log(`${displayTime()} New Connection with IP = ${ipAddress} / Method = ${req.method} / in : ${req.url}`);
+                            }
+                            res.end();
+                            res.destroy();
+                          };
+                      });
+
+client.listen(80)
+function add_address(address) {
+    blacklist.set(address, Date.now() + 5000);
+}
+client.on("connection", function (socket) {
+    let ipsocket = socket.remoteAddress;
+    ipsocket = ipsocket.split(/::ffff:/g).filter(i => i).join("");
+    if (!blacklist.has(socket.remoteAddress)) {
+        add_address(socket.remoteAddress);
     }
     else {
-        console.log(`==========[Protect LOGS]==========\n[!] New Connection with IP = ${ipAddress}`)
-                      console.log(`[!] Req Method = ${req.method}`)
-                      console.log(`[!] Entered Route = ${req.url}`)
-                      console.log('[!] Headers = ' + req.headers['user-agent'])
-                      console.log(`==================================`)
-        res.writeHead(598, "Simple HTTP");
-            res.end();
-            res.destroy();
+        var not_allowed = blacklist.get(socket.remoteAddress);
+        if (Date.now() > not_allowed) {
+            blacklist.delete(socket.remoteAddress);
+        }
+        else
+            socket.destroy();
+            console.log(`${displayTime()} Banned Connection With IP = ${ipsocket}`);
+            process.env.BLACKLIST
+            process.env.limiter
+            process.env.helmet
     }
-})
-client.listen(80)
-console.log("HTTP Running in Port 80!")
-}
-else
-{
-console.log("Wrong Password")
-process.exit(0);
-}
-rl.close();
 });
+console.log("Simple GTPS-HTTP")
+console.log("HTTP Server is Running")
+        }
+        else
+        {
+        console.log("Wrong Password")
+        process.exit(0);
+        }
+        rl.close();
+      });
