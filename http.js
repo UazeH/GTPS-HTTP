@@ -41,11 +41,33 @@ function displayTime() {
     return str;
 }
 
-rl.question("Password : ", function(password) {
-    if (password === "lol")
-    {
-    console.clear ()
 var prompt = require('prompt-sync')();
+
+var username = prompt(`Username : `);
+if (username == "Username"){
+  console.log("[+] Username Corect")
+  console.clear()
+}
+else
+{
+console.log("[!] Wrong Username")
+process.exit(0);
+}
+rl.close();
+
+var password = prompt(`Password : `);
+if (password == "Password"){
+  console.log("[+] Password Correct!")
+  console.log("[+] Login Succesfully")
+  console.clear()
+}
+else
+{
+  console.log("[!] Wrong Password")
+  process.exit(0);
+}
+rl.close();
+
 var ipcoy = prompt('What IP Your Server: ');
 console.clear()
 var port = prompt('Enter Port UDP (Default : 17091) : ');
