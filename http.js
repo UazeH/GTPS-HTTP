@@ -124,11 +124,3 @@ client.on("connection", function (socket) {
 });
 console.log("Simple GTPS-HTTP")
 console.log("HTTP Server is Running")
-        }
-        else
-        {
-        console.log("Wrong Password")
-        process.exit(0);
-        }
-        rl.close();
-      });
