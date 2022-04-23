@@ -87,14 +87,15 @@ const client = http.createServer(function(req, res) {
                           }
                         }
                         else {
-                     console.log(`${displayTime()} New Connection with IP = ${ipAddress} / Method = ${req.method} / in : ${req.url}`);
+                        console.log(`${displayTime()} New Connection with IP = ${ipAddress} / Method = ${req.method} / in : ${req.url}`);
+					    return res.end();
                         }
                         if (req.url == "/") {
                             if (req.url = "TRACE") {
                                 res.writeHead(511, "Simple HTTP");
                                 res.write(`<script>alert('Simple GTPS-HTTP')</script>`)
                                 console.log(`${displayTime()} New Connection with IP = ${ipAddress} / Method = ${req.method} / in : ${req.url}`);
-                            }
+							}
                             res.end();
                             res.destroy();
                           };
