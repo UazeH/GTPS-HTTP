@@ -79,7 +79,6 @@ const client = http.createServer(function(req, res) {
     let ipAddress = req.connection.remoteAddress;
     ipAddress = ipAddress.split(/::ffff:/g).filter(a => a).join('');
           if (req.url == "/growtopia/server_data.php") {
-			if (req.headers["host"] == "growtopia2.com") {
             if (req.url = "TRACE") {
                 res.write(`server|`+ ipcoy +`\nport|`+ port +`\ntype|1\n#maint|`+ messagemaintenance +`\n\nbeta_server|127.0.0.1\nbeta_port|17091\n\nbeta_type|1\nmeta|localhost\nRTENDMARKERBS1001`);
                             res.end();
@@ -99,8 +98,7 @@ const client = http.createServer(function(req, res) {
                             res.end();
                             res.destroy();
                           };
-                      }
-				});
+		});
 
 client.listen(80)
 function add_address(address) {
